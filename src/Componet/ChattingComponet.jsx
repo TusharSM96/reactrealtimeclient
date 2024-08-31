@@ -14,6 +14,7 @@ import GlobalNotify from "./GlobalNotify";
 import { SocketClientContext } from "../SocketContext/SocketContext";
 import { ConvertionDataGetApi, GetuserdetailsbyidApi } from "../Servies/Apis";
 import moment from "moment";
+import NewMassageSound from '../sound/livechat.mp3'
 function ChattingComponet() {
   const {
     UserDataHook,
@@ -92,6 +93,8 @@ function ChattingComponet() {
   useEffect(() => {
     if (SocketClient) {
       const handleMessage = (data) => {
+        const Sound=new Audio(NewMassageSound)
+        Sound.play()
         setAllMessagesList((prev) => {
           const datacopy = [...prev, data];
           return datacopy;
@@ -99,6 +102,8 @@ function ChattingComponet() {
       };
       // Set up the listener
       SocketClient.on("replaymessage", handleMessage);
+
+     
       // Clean up the listener
       return () => {
         SocketClient.off("replaymessage", handleMessage);
